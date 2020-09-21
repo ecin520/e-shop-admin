@@ -178,10 +178,10 @@
         this.$message({type: 'success', message: row.verifyStatus + '待审核'})
       },
       addProductClick() {
-        this.$router.push({path: '/product-edit'})
+        this.$router.push({path: '/shop'})
       },
       editProductClick(index, row) {
-        this.$router.push({path: '/product-edit', query: {productId: row.id, shopId: row.shopId}})
+        this.$router.push({path: '/product-edit', query: {productId: row.id, shopId: row.shopId, shopName: row.shopName}})
       },
       getVerifyStatus(status) {
         if (status === 0) {

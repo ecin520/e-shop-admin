@@ -19,6 +19,22 @@ export function insertProduct(product) {
   })
 }
 
+export function insertProductByParam(productParam) {
+  return request({
+    url: '/api/product/admin/product/param/insert',
+    method: 'POST',
+    data: productParam
+  })
+}
+
+export function updateProductByParam(productParam) {
+  return request({
+    url: '/api/product/admin/product/param/update',
+    method: 'POST',
+    data: productParam
+  })
+}
+
 export function listProducts(queryParam) {
   return request({
     url: '/api/product/admin/product/list',
@@ -69,6 +85,7 @@ export function listSkuProducts(pageNum, pageSize, name, productId, productSpecD
   })
 }
 
+
 export function getSkuProduct(queryParam) {
   return request({
     url: '/api/product/admin/product/sku/query',
@@ -90,5 +107,13 @@ export function updateProduct(product) {
     url: '/api/product/admin/product/update',
     method: 'PUT',
     data: product
+  })
+}
+
+export function getSkuProductByParam(productId, specDetailIds) {
+  return request({
+    url: '/api/product/admin/product/sku/' + productId,
+    method: 'POST',
+    data: specDetailIds
   })
 }

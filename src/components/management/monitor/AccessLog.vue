@@ -34,7 +34,9 @@
       </el-pagination>
     </el-card>
     <el-dialog title="日志详情" :lock-scroll="true" top="110px" width="800px" :visible.sync="resultDetailDialog">
-      <json-viewer :value="param" :expand-depth="3" sort></json-viewer>
+      <div style="max-height: 160px;overflow-y: auto;">
+        <json-viewer :value="param" :expand-depth="3" sort></json-viewer>
+      </div>
       <el-card>
         <json-viewer class="access-log-json" :value="resultDetail" :expand-depth="3" copyable sort></json-viewer>
       </el-card>

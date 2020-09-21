@@ -76,7 +76,7 @@ export function updateProductCategoryDetail(productCategoryDetail) {
 
 export function listProductSpecsByCategoryId(categoryId) {
   return request({
-    url: '/api/product/admin/category/spec/list',
+    url: '/api/product/admin/category_spec/list',
     method: 'GET',
     params: {
       categoryId: categoryId
@@ -84,20 +84,50 @@ export function listProductSpecsByCategoryId(categoryId) {
   })
 }
 
+export function getProductCategoryDetailDTOById(categoryDetailId) {
+  return request({
+    url: '/api/product/admin/category/detail/' + categoryDetailId,
+    method: 'GET'
+  })
+}
+
 export function listProductSpecDTOsByCategoryId(categoryId) {
   return request({
-    url: '/api/product/admin/category/spec/dto/list',
+    url: '/api/product/admin/category_spec/dto/list',
     method: 'GET',
     params: {
       categoryId: categoryId
+    }
+  })
+}
+
+export function listProductSpecDTOsByCategoryIdAndProductId(categoryId, productId) {
+  return request({
+    url: '/api/product/admin/category_spec/dto/list/by/category_product',
+    method: 'GET',
+    params: {
+      categoryId: categoryId,
+      productId: productId
+    }
+  })
+}
+
+export function listSpecDetailsByProductId(productId) {
+  return request({
+    url: '/api/product/admin/category_spec/spec_detail/list',
+    method: 'GET',
+    params: {
+      productId: productId
     }
   })
 }
 
 export function updateProductCategorySpecs(categoryId, productSpecIds) {
   return request({
-    url: '/api/product/admin/category/spec/update/' + categoryId,
+    url: '/api/product/admin/category_spec/update/' + categoryId,
     method: 'PUT',
     data: productSpecIds
   })
 }
+
+

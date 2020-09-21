@@ -198,7 +198,7 @@
         this.init();
       },
       addProductClick(index, row) {
-        this.$router.push({path: '/product-add', query: {shopId: row.id}})
+        this.$router.push({path: '/product-add', query: {shopId: row.id, shopName: row.name}})
       },
       addShopConfirmClick() {
         insertShop(this.insertShop).then(response => {

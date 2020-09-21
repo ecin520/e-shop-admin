@@ -1,7 +1,7 @@
 <template>
   <div class="product-add">
     <el-card>
-      <el-steps style="background: #ffffff" simple :active="active" align-center>
+      <el-steps finish-status="success" style="background: #ffffff" simple :active="active" align-center>
         <el-step>
           <span class="pointer" @click="active = 1" slot="title">填写商品信息</span>
         </el-step>
@@ -40,23 +40,26 @@
               <el-date-picker
                 v-model="insertProduct.saleTime"
                 type="datetime"
+                value-format="yyyy-MM-dd HH:mm:ss"
                 placeholder="选择日期时间">
               </el-date-picker>
             </el-form-item>
             <el-form-item label="是否上架">
               <el-switch
-                :value="insertProduct.shelfStatus === 1"
+                v-model="insertProduct.shelfStatus"
+                :active-value="1"
+                :inactive-value="0"
                 active-color="#13ce66"
                 inactive-color="#ff4949"
               ></el-switch>
             </el-form-item>
             <br>
             <el-form-item label="成长值">
-              <el-input style="width: 434px" v-model="insertProduct.growthVaule"></el-input>
+              <el-input style="width: 434px" v-model="insertProduct.growthValue"></el-input>
             </el-form-item>
             <br>
             <el-form-item label="赠送积分">
-              <el-input style="width: 434px" v-model="insertProduct.intergral"></el-input>
+              <el-input style="width: 434px" v-model="insertProduct.integral"></el-input>
             </el-form-item>
             <br>
             <el-form-item label="商品参数">
@@ -124,13 +127,13 @@
                   </p>
                 </div>
               </div>
-              <div v-else style="border: 1px solid #DCDFE6;padding: 10px;margin: 10px">
-                <p>规格</p>
-                <p style="margin: 15px;">
-                  <el-input size="small" style="width: 100px"></el-input>
-                  <el-button :plain="true" size="small">添加</el-button>
-                </p>
-              </div>
+              <!--              <div v-else style="border: 1px solid #DCDFE6;padding: 10px;margin: 10px">-->
+              <!--                <p>规格</p>-->
+              <!--                <p style="margin: 15px;">-->
+              <!--                  <el-input size="small" style="width: 100px"></el-input>-->
+              <!--                  <el-button :plain="true" size="small">添加</el-button>-->
+              <!--                </p>-->
+              <!--              </div>-->
 
               <div>
                 <el-table size="small" :data="productSkuList">
@@ -152,7 +155,7 @@
                     </template>
                   </el-table-column>
                   <el-table-column align="center" prop="stock" label="展示图片">
-                    <template slot-scope="scope" >
+                    <template slot-scope="scope">
                       <span class="pointer" @click="selectedRowClick(scope.row)">
                         <el-avatar shape="square" fit="cover" :size="35" :src="scope.row.showImage"></el-avatar>
                       </span>
@@ -164,7 +167,7 @@
 
           </div>
         </div>
-<!--        <el-button @click="submit">提交</el-button>-->
+        <!--        <el-button @click="submit">提交</el-button>-->
         <div style="text-align: center;margin: 10px;">
           <el-button size="small" @click="active = 1" :plain="true" style="justify-content: center">上一步</el-button>
           <el-button size="small" @click="active = 3" :plain="true" style="justify-content: center">下一步</el-button>
@@ -186,16 +189,22 @@
                   :http-request="uploadImage"
                   :file-list="uploadImageList"
                   :on-success="handleImageUploadSuccess"
-                  limit="10"
+                  :limit="10"
                 >
                   <i class="el-icon-plus"></i>
                 </el-upload>
               </div>
               <div>
                 <p>文案编辑：</p>
-                <mark-editor v-model="insertProduct.description" :isClear="isClear" @change="change"></mark-editor>
+                <mark-editor v-model="insertProduct.description" :isClear="isClear"></mark-editor>
               </div>
             </div>
+
+            <div style="text-align: center;margin: 10px;">
+              <el-button size="small" @click="active = 2" :plain="true" style="justify-content: center">上一步</el-button>
+              <el-button size="small" @click="active = 4" :plain="true" style="justify-content: center">下一步</el-button>
+            </div>
+
           </div>
         </div>
 
@@ -203,7 +212,37 @@
       </div>
 
       <div v-if="active === 4">
-
+        <div style="display: flex;justify-content: center;">
+          <div style="width: 800px">
+            <div style="border: 1px solid #DCDFE6;padding: 15px;">
+              <div>
+                <el-form
+                  style="border: 1px solid #DCDFE6;padding: 15px;"
+                  size="small"
+                  :inline="true"
+                  label-width="80px"
+                  label-position="right"
+                >
+                  <el-form-item label="秒杀活动">
+                    <el-date-picker
+                      disabled
+                      type="datetime"
+                      placeholder="选择日期时间">
+                    </el-date-picker>
+                  </el-form-item>
+                  <br>
+                  <el-form-item label="首页展示">
+                    <el-input style="width: 220px" disabled></el-input>
+                  </el-form-item>
+                </el-form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="text-align: center;margin: 10px;">
+          <el-button size="small" @click="active = 3" :plain="true" style="justify-content: center">上一步</el-button>
+          <el-button size="small" type="primary" style="justify-content: center" @click="submit">提交商品信息</el-button>
+        </div>
       </div>
 
       <el-dialog title="图片上传" :visible.sync="uploadShowImageDiaog" width="500px">
@@ -229,8 +268,13 @@
 </template>
 
 <script>
-  import {listProductCategories, listProductCategoryDetailByCategoryId} from "../../../../api/category";
-  import {listProductSpecsByCategoryId, listProductSpecDTOsByCategoryId} from "../../../../api/category";
+  import {
+    listProductCategories,
+    listProductCategoryDetailByCategoryId,
+    listProductSpecsByCategoryId,
+    listProductSpecDTOsByCategoryId
+  } from "../../../../api/category";
+  import {insertProductByParam} from "../../../../api/product";
   import {insertProductSpecDetail} from "../../../../api/spec";
   import MarkEditor from "../../../widgets/MarkEditor";
 
@@ -244,6 +288,7 @@
         isClear: false,
         productId: null,
         shopId: null,
+        shopName: null,
         active: 1,
         parameter: [
           {
@@ -271,8 +316,8 @@
 
       },
       /**
-      * 删除参数
-      * */
+       * 删除参数
+       * */
       deleteParameterItem(item) {
         this.parameter = this.parameter.filter(i => {
           return i.key !== item.key
@@ -298,14 +343,17 @@
         this.selectedRow = row;
         this.uploadShowImageDiaog = true;
       },
+      /**
+       * 上传成功的手动回调函数
+       * */
       handleImageUploadSuccess(response, file, fileList) {
         file.url = response.data.content
         this.uploadImageList.push(file)
-        console.log(fileList)
+        // console.log(fileList)
       },
       removeImage(file, fileList) {
         this.uploadImageList = fileList;
-        this.$message({type: 'success', message: fileList})
+        // this.$message({type: 'success', message: fileList})
       },
       uploadImage(data) {
         let formdata = new FormData();
@@ -344,6 +392,9 @@
         });
 
       },
+      /**
+       * 商品提交
+       * */
       submit() {
         let submitSkuList = []
         let skuSpec = []
@@ -354,7 +405,41 @@
             this.productSkuList[i].specDetails.push(specDetailId)
           }
         }
-        console.log(this.productSkuList)
+
+        // 将图片列表合并到一个字符串并给inserProduct赋值
+        let imgList = ''
+        for (let i = 0; i < this.uploadImageList.length; i++) {
+          if (i === this.uploadImageList.length - 1) {
+            imgList += this.uploadImageList[i].url
+          } else {
+            imgList += this.uploadImageList[i].url + ','
+          }
+        }
+        this.insertProduct.showImage = imgList
+
+        // 商品参数列表添加到insertProduct
+        this.insertProduct.parameter = JSON.stringify(this.parameter)
+        this.insertProduct.shopId = this.shopId;
+        this.insertProduct.productCategoryDetailId = this.productCategoryDetailId;
+        this.insertProduct.shopName = this.shopName;
+
+
+        this.productCategoryDetailList.forEach(item => {
+          if (item.id === this.productCategoryDetailId) {
+            this.insertProduct.productCategoryDetailName = item.name
+          }
+        })
+
+
+        insertProductByParam({product: this.insertProduct, skuProductList: this.productSkuList}).then(response => {
+          if (response.code === 200) {
+            this.$message({type: 'success', message: response.message})
+          } else {
+            this.$message({type: 'error', message: response.message})
+          }
+        })
+
+
       },
       changeProductCategory(value) {
 
@@ -444,6 +529,7 @@
         this.$store.dispatch("changeMenu", {hover: '6-1'});
         this.$store.dispatch("changeBreadcrumb", {value: ['商家管理', '店铺管理', '添加商品']});
         this.shopId = this.$route.query.shopId
+        this.shopName = this.$route.query.shopName
 
         listProductCategories(0, 0, '').then(response => {
           this.productCategoryList = response.data.content
@@ -458,7 +544,5 @@
 </script>
 
 <style scoped>
-  /deep/.el-upload-list__item.is-ready {
-    display: none;
-  }
+
 </style>

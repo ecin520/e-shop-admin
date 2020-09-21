@@ -5,11 +5,11 @@
       <el-menu :default-active="defaultActive" :unique-opened="true" background-color="#353b41" text-color="#fff" active-text-color="#78b1e8" class="el-menu-vertical" :collapse="this.$store.getters.isCollapse">
         <div class="home-aside-logo">
           <img style="margin: 3px" width="55px" src="../assets/header.png" />
-          <a class="home-aside-logo-name" v-show="!this.$store.getters.isCollapse">E-Mall管理后台</a>
+          <a class="home-aside-logo-name" v-show="!this.$store.getters.isCollapse">E-SHOP管理后台</a>
         </div>
-<!--        <span style="display: block;height: 1px;margin-top: -25px;">-->
-<!--          <el-divider></el-divider>-->
-<!--        </span>-->
+<!--        <span style="display: block;height: 1px;margin-top: -25px;">
+          <el-divider></el-divider>
+        </span>-->
         <p style="color: #78b1e8"></p>
         <el-menu-item index="1" @click="homePage">
           <i class="el-icon-s-home"></i>
