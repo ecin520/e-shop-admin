@@ -3,7 +3,10 @@
     <el-card v-loading="loading">
       <div class="access-log-operation">
         <el-button size="small" type="danger" @click="clearLogs">清空日志</el-button>
-        <el-button size="small" type="success" @click="init">刷新</el-button>
+        <el-button size="small" type="success" @click="changeDate">刷新</el-button>
+        <el-date-picker style="float: right" size="small" v-model="logDate" type="date"
+                        placeholder="查询日期" @change="changeDate"
+                        value-format="yyyyMMdd"></el-date-picker>
       </div>
       <el-table size="small" :data="errorLogData">
         <el-table-column align="center" label="用户名" prop="username"></el-table-column>
@@ -54,7 +57,8 @@
 </template>
 
 <script>
-  import {listErrorLogs} from "../../../api/log";
+  import {listErrorLogs, listErrorLogsByDate, listWebLogsByDate} from "../../../api/log";
+  import {getTime} from "../../../utils/time";
 
   export default {
     data() {
@@ -68,10 +72,25 @@
         pageSize: 10,
         loading: true,
         currentPage: 1,
+        logDate: null
       };
     },
     methods: {
       clearLogs() {
+      },
+      changeDate() {
+        this.loading = true;
+        listErrorLogsByDate(this.logDate).then(response => {
+          this.pageErrorLogData = response.data;
+          this.total = this.pageErrorLogData.length;
+          if (this.total < this.pageSize) {
+            this.errorLogData = this.pageErrorLogData;
+          } else {
+            this.errorLogData = this.pageErrorLogData.slice(0, this.pageSize);
+          }
+          this.currentPage = 1;
+          this.loading = false;
+        })
       },
       showResultDetail(index, row) {
         this.resultDetail = row.message;
@@ -103,6 +122,7 @@
       },
     },
     mounted() {
+      this.logDate = getTime()
       this.init();
     },
   };

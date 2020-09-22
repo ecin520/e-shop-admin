@@ -180,7 +180,8 @@ export default {
       this.$router.push({path: '/error-log'})
     },
     dataMonitor() {
-      this.breadcrumb = ['系统监控', '数据监控']
+      this.$store.dispatch("changeBreadcrumb", {value: ['系统监控', '数据监控']});
+      this.$router.push({path: '/data-monitor'})
     },
     documentApiPage() {
       this.$store.dispatch("changeBreadcrumb", {value: ['工具', 'Api文档']});
@@ -229,7 +230,7 @@ export default {
   min-width: 950px;
 
   .home-main {
-    background-color: #fcf9f9;
+    background-color: #70aecd;
   }
 
   .home-header {

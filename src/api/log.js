@@ -20,3 +20,10 @@ export function listWebLogsByDate(date) {
     method: 'GET'
   })
 }
+
+export function listErrorLogsByDate(date) {
+  return request({
+    url: '/api/urp/admin/log/error/list/' + date,
+    method: 'GET'
+  })
+}

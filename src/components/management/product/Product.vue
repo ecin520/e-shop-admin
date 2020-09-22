@@ -2,7 +2,8 @@
   <div class="product">
     <el-card v-loading="loading">
       <el-row>
-        <el-button class="operate-item" style="float: right" size="small" type="success" @click="addProductClick">添加商品</el-button>
+        <el-button class="operate-item" style="float: right" size="small" type="success" @click="addProductClick">添加商品
+        </el-button>
         <el-button class="operate-item" style="float: right" size="small" type="primary" @click="clear">清空</el-button>
         <el-button class="operate-item" style="float: right" size="small" @click="searchProduct">搜索</el-button>
         <el-input v-model="searchParam.name" class="operate-item" style="width: 180px" size="small"
@@ -57,7 +58,7 @@
         </el-table-column>
         <el-table-column label="商品sku" align="center" prop="">
           <template slot-scope="scope">
-            <el-button size="small" type="primary" @click="skuEditClick">编辑</el-button>
+            <el-button size="small" type="primary" @click="skuEditClick(scope.$index, scope.row)">编辑</el-button>
           </template>
         </el-table-column>
         <el-table-column label="店铺" align="center" prop="shopName"></el-table-column>
@@ -132,11 +133,45 @@
         :page-count="total / pageSize + 1"
       ></el-pagination>
     </el-card>
+
+    <el-dialog :visible.sync="skuDetailDialog" width="650px">
+      <span style="color: #0e91b8" slot="title">{{productName}}</span>
+      <el-table style="max-height: 500px;overflow: auto;" border size="small" :data="skuList">
+        <el-table-column align="center" prop="name" label="名称">
+        </el-table-column>
+        <el-table-column align="center" prop="price" label="价格">
+          <template slot-scope="scope">
+            <el-input style="width: 80px" size="small" v-model="scope.row.price"></el-input>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" prop="stock" label="库存">
+          <template slot-scope="scope">
+            <el-input style="width: 80px" size="small" v-model="scope.row.stock"></el-input>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" prop="stock" label="展示图片">
+          <template slot-scope="scope">
+            <el-upload
+              class="avatar-uploader"
+              action="#"
+              :http-request="changeSkuAvatar.bind(this, scope)"
+              :show-file-list="false">
+              <el-avatar shape="square" fit="cover" :size="35" :src="scope.row.showImage"></el-avatar>
+            </el-upload>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div slot="footer">
+        <el-button size="small" type="default" @click="skuDetailDialog = false">取消</el-button>
+        <el-button size="small" type="danger" @click="modifySkuListClick">修改</el-button>
+      </div>
+    </el-dialog>
+
   </div>
 </template>
 
 <script>
-  import {listProducts, getProduct} from "../../../api/product";
+  import {listProducts, getProduct, listSkuProducts, updateSkuProductList} from "../../../api/product";
 
   export default {
     name: "Product",
@@ -155,7 +190,10 @@
           deleteStatus: null,
           shelfStatus: null,
           verifiStatus: null
-        }
+        },
+        skuDetailDialog: false,
+        productName: '',
+        skuList: []
       }
     },
     methods: {
@@ -174,6 +212,35 @@
           verifiStatus: null
         }
       },
+      modifySkuListClick() {
+        updateSkuProductList(this.skuList).then(response => {
+          if (response.code === 200) {
+            this.$message({type: 'success', message: response.message})
+            this.skuDetailDialog = false;
+          } else {
+            this.$message({type: 'error', message: response.message})
+          }
+        })
+
+      },
+      changeSkuAvatar(scope, data) {
+        let formdata = new FormData();
+        formdata.append('file', data.file);
+
+        this.$axios({
+          url: 'http://www.pytap.com/api/file/imageUpload',
+          method: 'post',
+          data: formdata,
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }).then(response => {
+          this.$message({message: '上传成功', type: 'success'})
+          scope.row.showImage = response.data.content
+        }).catch(error => {
+          console.log(error)
+        });
+      },
       verifyProduct(row) {
         this.$message({type: 'success', message: row.verifyStatus + '待审核'})
       },
@@ -181,7 +248,10 @@
         this.$router.push({path: '/shop'})
       },
       editProductClick(index, row) {
-        this.$router.push({path: '/product-edit', query: {productId: row.id, shopId: row.shopId, shopName: row.shopName}})
+        this.$router.push({
+          path: '/product-edit',
+          query: {productId: row.id, shopId: row.shopId, shopName: row.shopName}
+        })
       },
       getVerifyStatus(status) {
         if (status === 0) {
@@ -230,7 +300,11 @@
 
       },
       skuEditClick(index, row) {
-
+        listSkuProducts({pageNum: 0, pageSize: 0, queryParam: {productId: row.id}}).then(response => {
+          this.skuList = response.data.content;
+          this.productName = row.name
+          this.skuDetailDialog = true;
+        })
       },
       imageUrl(index, row) {
         let pics = (row.showImage || "").split(",");

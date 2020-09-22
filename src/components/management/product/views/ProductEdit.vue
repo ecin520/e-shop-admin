@@ -88,6 +88,7 @@
 
         </div>
         <div style="text-align: center;margin: 10px;">
+          <el-button size="small" @click="$router.go(-1)" :plain="true" style="justify-content: center">返回</el-button>
           <el-button size="small" @click="active = 2" :plain="true" style="justify-content: center">下一步</el-button>
         </div>
       </div>
@@ -116,7 +117,7 @@
                   </el-option>
                 </el-select>
               </el-row>
-              <div v-if="productSpecList.length > 0" style="border: 1px solid #DCDFE6;padding: 10px;margin: 10px">
+              <div style="border: 1px solid #DCDFE6;padding: 10px;margin: 10px">
                 <div v-for="(productSpec, i) in productSpecList" :key="i">
                   <p>{{productSpec.name}}</p>
                   <span style="margin: 15px;" v-for="(productSpecDetail, j) in productSpec.details" :key="j">
@@ -142,6 +143,7 @@
                   <el-table-column align="center" prop="price" label="价格">
                     <template slot-scope="scope">
                       <el-input style="width: 60px" size="small" v-model="scope.row.price"></el-input>
+<!--                      <input class="my-button" style="width: 60px" v-model="scope.row.price"></input>-->
                     </template>
                   </el-table-column>
                   <el-table-column align="center" prop="stock" label="库存">
@@ -309,7 +311,7 @@
     },
     methods: {
       test() {
-
+        console.log(this.productSkuList)
       },
       /**
        * 删除参数
@@ -349,6 +351,7 @@
       handleImageUploadSuccess(response, file, fileList) {
         file.url = response.data.content
         this.uploadImageList.push(file)
+        this.$forceUpdate();
       },
       removeImage(file, fileList) {
         this.uploadImageList = fileList;
@@ -551,10 +554,17 @@
               save.price = skuProduct.price
               save.stock = skuProduct.stock
               save.showImage = skuProduct.showImage
+              save.specDetails = []
+              this.productSkuList.push(save)
+            } else {
+              save.price = 0
+              save.stock = 0
+              save.showImage = ''
+              save.specDetails = []
+              this.productSkuList.push(save)
             }
           })
-          save.specDetails = []
-          this.productSkuList.push(save)
+
         }
         this.$forceUpdate()
       },

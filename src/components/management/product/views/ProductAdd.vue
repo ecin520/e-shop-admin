@@ -85,6 +85,7 @@
 
         </div>
         <div style="text-align: center;margin: 10px;">
+          <el-button size="small" @click="$router.go(-1)" :plain="true" style="justify-content: center">返回</el-button>
           <el-button size="small" @click="active = 2" :plain="true" style="justify-content: center">下一步</el-button>
         </div>
       </div>

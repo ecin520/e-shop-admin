@@ -70,18 +70,11 @@ export function insertSkuProduct(skuProduct) {
   })
 }
 
-export function listSkuProducts(pageNum, pageSize, name, productId, productSpecDetailId) {
-  var FormData = require('form-data');
-  var data = new FormData();
-  data.append('pageNum', pageNum);
-  data.append('pageSize', pageSize);
-  data.append('name', name);
-  data.append('productId', productId);
-  data.append('productSpecDetailId', productSpecDetailId);
+export function listSkuProducts(queryParam) {
   return request({
     url: '/api/product/admin/product/sku/list',
     method: 'POST',
-    data: data
+    data: queryParam
   })
 }
 
@@ -99,6 +92,14 @@ export function updateSkuProduct(skuProduct) {
     url: '/api/product/admin/product/sku/update',
     method: 'PUT',
     data: skuProduct
+  })
+}
+
+export function updateSkuProductList(skuProductList) {
+  return request({
+    url: '/api/product/admin/product/skus/update',
+    method: 'PUT',
+    data: skuProductList
   })
 }
 

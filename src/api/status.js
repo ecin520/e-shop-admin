@@ -6,9 +6,9 @@ export function login(username, password) {
     data.append('username', username);
     data.append('password', password);
     data.append('grant_type', 'password');
-    data.append('client_id', 'e-mall-client');
+    data.append('client_id', 'e-shop-client');
     data.append('scope', 'all');
-    data.append('client_secret', 'e-mall');
+    data.append('client_secret', 'e-shop');
     data.append('client_type', 'ADMIN')
     return request({
       url: '/api/auth/oauth/token',
@@ -21,9 +21,9 @@ export function refreshToken(refreshToken) {
   var FormData = require('form-data');
   var data = new FormData();
   data.append('grant_type', 'refresh_token');
-  data.append('client_id', 'e-mall-client');
+  data.append('client_id', 'e-shop-client');
   data.append('scope', 'all');
-  data.append('client_secret', 'e-mall');
+  data.append('client_secret', 'e-shop');
   data.append('refresh_token', refreshToken);
   return request({
     url: '/api/auth/oauth/token',

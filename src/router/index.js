@@ -95,6 +95,11 @@ const router = new Router({
           component: () => import('../components/management/monitor/ErrorLog')
         },
         {
+          path: '/data-monitor',
+          name: 'DataMonitor',
+          component: () => import('../components/management/monitor/DataMonitor')
+        },
+        {
           path: '/tool-document',
           name: 'ApiDocument',
           component: () => import('../components/management/tool/ApiDocument')
