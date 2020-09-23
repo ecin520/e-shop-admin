@@ -96,13 +96,6 @@ export function deletePermissions(permissionIds) {
   });
 }
 
-export function listPermissionGroupDTO() {
-  return request({
-    url: "/api/urp/admin/permission/group/dto/list",
-    method: "GET"
-  });
-}
-
 export function listPermissionsByGroupId(id) {
   return request({
     url: "/api/urp/admin/permission/list/group/" + id,

@@ -39,7 +39,8 @@
             <i class="el-icon-s-order"></i>
             <span slot="title">订单管理</span>
           </template>
-          <el-menu-item index="4-1" @click=""><i class="el-icon-s-order"></i>订单管理</el-menu-item>
+          <el-menu-item index="4-1" @click="orderPage"><i class="el-icon-s-order"></i>订单管理</el-menu-item>
+          <el-menu-item index="4-2" @click="returnReasonPage"><i class="el-icon-s-shop"></i>退货原因</el-menu-item>
         </el-submenu>
         <el-submenu index="5">
           <template slot="title">
@@ -166,6 +167,14 @@ export default {
     specPage() {
       this.$store.dispatch("changeBreadcrumb", {value: ['商品管理', '规格管理']});
       this.$router.push({path: '/spec'})
+    },
+    orderPage() {
+      this.$store.dispatch("changeBreadcrumb", {value: ['订单管理', '订单管理']});
+      this.$router.push({path: '/order'})
+    },
+    returnReasonPage() {
+      this.$store.dispatch("changeBreadcrumb", {value: ['订单管理', '退货原因']});
+      this.$router.push({path: '/return-reason'})
     },
     shopPage() {
       this.$store.dispatch("changeBreadcrumb", {value: ['商家管理', '店铺管理']});

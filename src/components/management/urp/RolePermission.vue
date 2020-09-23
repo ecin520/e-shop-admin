@@ -31,9 +31,7 @@
 <script>
 import {
   listPermissions,
-  listPermissionGroups,
-  listPermissionGroupDTO,
-  listPermissionsByGroupId
+  listPermissionGroups
 } from "../../../api/permission";
 import { listPermissionsByRoleId, updateRolePermissions } from "../../../api/role";
 

@@ -1,5 +1,4 @@
 import request from '../utils/request'
-import ca from "element-ui/src/locale/lang/ca";
 
 export function listProductCategories(pageNum, pageSize, keyword) {
   return request({
@@ -36,15 +35,11 @@ export function deleteProductCategoryById(id) {
   })
 }
 
-export function listProductCategoryDetailByCategoryId(pageNum, pageSize, categoryId) {
+export function listProductCategoryDetailsByParam(queryParam) {
   return request({
     url: '/api/product/admin/category/details',
-    method: 'GET',
-    params: {
-      pageNum: pageNum,
-      pageSize: pageSize,
-      categoryId: categoryId
-    }
+    method: 'POST',
+    data: queryParam
   })
 }
 
@@ -93,7 +88,7 @@ export function getProductCategoryDetailDTOById(categoryDetailId) {
 
 export function listProductSpecDTOsByCategoryId(categoryId) {
   return request({
-    url: '/api/product/admin/category_spec/dto/list',
+    url: '/api/product/admin/category_spec/view/list',
     method: 'GET',
     params: {
       categoryId: categoryId
@@ -103,7 +98,7 @@ export function listProductSpecDTOsByCategoryId(categoryId) {
 
 export function listProductSpecDTOsByCategoryIdAndProductId(categoryId, productId) {
   return request({
-    url: '/api/product/admin/category_spec/dto/list/by/category_product',
+    url: '/api/product/admin/category_spec/view/list/by/category_product',
     method: 'GET',
     params: {
       categoryId: categoryId,

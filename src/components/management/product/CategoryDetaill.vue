@@ -158,7 +158,7 @@
 
 <script>
   import {
-    listProductCategoryDetailByCategoryId,
+    listProductCategoryDetailsByParam,
     insertProductCategoryDetail,
     updateProductCategoryDetail,
     deleteProductCategoryDetailById
@@ -226,7 +226,7 @@
 
         this.categoryId = this.$route.query.id
         this.categoryName = this.$route.query.name
-        listProductCategoryDetailByCategoryId(this.currentPage, this.pageSize, this.categoryId).then(response => {
+        listProductCategoryDetailsByParam({pageNum: this.currentPage, pageSize: this.pageSize, queryParam: {productCategoryId: this.categoryId}}).then(response => {
           this.categoryDetaillList = response.data.content
           this.total = response.data.total
         })

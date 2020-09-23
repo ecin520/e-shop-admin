@@ -29,6 +29,10 @@ service.interceptors.response.use(response => {
     Message({ message: data.message, type: 'error' })
     /* 执行刷新token */
   } else if (data.code === 403) {
+    if (undefined === getRefreshToken() || '' === getRefreshToken() || null === getRefreshToken()) {
+      this.$store.dispatch('logout')
+      this.$router.push('/login')
+    }
     refreshToken(getRefreshToken()).then(response => {
       if (response.code === 200) {
         setToken(response.data.oauth.accessToken, true)

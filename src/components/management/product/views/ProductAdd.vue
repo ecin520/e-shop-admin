@@ -271,9 +271,8 @@
 <script>
   import {
     listProductCategories,
-    listProductCategoryDetailByCategoryId,
     listProductSpecsByCategoryId,
-    listProductSpecDTOsByCategoryId
+    listProductSpecDTOsByCategoryId, listProductCategoryDetailsByParam
   } from "../../../../api/category";
   import {insertProductByParam} from "../../../../api/product";
   import {insertProductSpecDetail} from "../../../../api/spec";
@@ -449,7 +448,7 @@
         this.productCategoryDetailId = null
         this.productSpecList = []
 
-        listProductCategoryDetailByCategoryId(0, 0, value).then(response => {
+        listProductCategoryDetailsByParam({pageNum: 0, pageSize: 0, queryParam: {productCategoryId: value, showStatus: 1}}).then(response => {
           this.productCategoryDetailList = response.data.content
         })
 

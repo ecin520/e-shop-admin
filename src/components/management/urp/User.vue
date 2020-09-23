@@ -24,6 +24,7 @@
             <el-avatar :size="40" :src="scope.row.avatar"></el-avatar>
           </template>
         </el-table-column>
+        <el-table-column align="center" :show-overflow-tooltip="true" prop="telephone" label="手机"></el-table-column>
         <el-table-column align="center" :show-overflow-tooltip="true" prop="email" label="邮箱"></el-table-column>
         <el-table-column align="center" :show-overflow-tooltip="true" prop="nickname" label="昵称"></el-table-column>
         <el-table-column align="center" :show-overflow-tooltip="true" prop="note" label="备注"></el-table-column>
@@ -106,7 +107,7 @@
           </el-upload>
         </el-form-item>
         <el-form-item label>
-          <el-input style="width: 425px" v-model="userDetail.avatar"></el-input>
+          <el-input style="width: 445px" v-model="userDetail.avatar"></el-input>
         </el-form-item>
         <el-form-item label="id">
           <el-input v-model="userDetail.id"></el-input>
@@ -132,16 +133,8 @@
         <el-form-item label="登陆时间">
           <el-input :disabled="true" v-model="userDetail.loginTime"></el-input>
         </el-form-item>
-
-        <el-form-item label="角色">
-          <el-select style="width: 485px" v-model="userRoleIds" multiple placeholder="选择角色">
-            <el-option
-              v-for="item in roleData"
-              :key="item.id"
-              :label="item.description"
-              :value="item.id"
-            ></el-option>
-          </el-select>
+        <el-form-item label="手机号">
+          <el-input v-model="userDetail.telephone"></el-input>
         </el-form-item>
         <el-form-item label="状态">
           <el-switch
@@ -151,6 +144,17 @@
           >active-color="#13ce66" inactive-color="#ff4949">
           </el-switch>
         </el-form-item>
+        <el-form-item label="角色">
+          <el-select style="width: 495px" v-model="userRoleIds" multiple placeholder="选择角色">
+            <el-option
+              v-for="item in roleData"
+              :key="item.id"
+              :label="item.description"
+              :value="item.id"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+
       </el-form>
       <div slot="footer">
         <el-button size="small" type="default" @click="userDetailDialog = false">取消</el-button>
@@ -174,6 +178,9 @@
         </el-form-item>
         <el-form-item label="邮箱">
           <el-input v-model="insertUser.email"></el-input>
+        </el-form-item>
+        <el-form-item label="手机号">
+          <el-input v-model="insertUser.telephone"></el-input>
         </el-form-item>
         <el-form-item label="昵称">
           <el-input v-model="insertUser.nickname"></el-input>

@@ -70,6 +70,16 @@ const router = new Router({
           component: () => import('../components/management/product/CategoryDetaill')
         },
         {
+          path: '/order',
+          name: 'Order',
+          component: () => import('../components/management/order/Order')
+        },
+        {
+          path: 'return-reason',
+          name: 'ReturnReason',
+          component: () => import('../components/management/order/ReturnReason')
+        },
+        {
           path: '/shop',
           name: 'Shop',
           component: () => import('../components/management/merchant/Shop')
@@ -116,7 +126,7 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requireAuth)) {
-    if (store.state.token) {
+    if (store.state.token && store.state.userInfo) {
       next()
     } else {
       Message({message: '请登录', type: 'error'})
