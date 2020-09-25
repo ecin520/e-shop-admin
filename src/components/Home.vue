@@ -41,6 +41,7 @@
           </template>
           <el-menu-item index="4-1" @click="orderPage"><i class="el-icon-s-order"></i>订单管理</el-menu-item>
           <el-menu-item index="4-2" @click="returnReasonPage"><i class="el-icon-s-shop"></i>退货原因</el-menu-item>
+          <el-menu-item index="4-3" @click="returnPage"><i class="el-icon-s-shop"></i>退货申请</el-menu-item>
         </el-submenu>
         <el-submenu index="5">
           <template slot="title">
@@ -176,6 +177,10 @@ export default {
       this.$store.dispatch("changeBreadcrumb", {value: ['订单管理', '退货原因']});
       this.$router.push({path: '/return-reason'})
     },
+    returnPage() {
+      this.$store.dispatch("changeBreadcrumb", {value: ['订单管理', '退货申请']});
+      this.$router.push({path: '/return'})
+    },
     shopPage() {
       this.$store.dispatch("changeBreadcrumb", {value: ['商家管理', '店铺管理']});
       this.$router.push({path: '/shop'})
@@ -239,7 +244,7 @@ export default {
   min-width: 950px;
 
   .home-main {
-    background-color: #70aecd;
+    background-color: #d7ecdf;
   }
 
   .home-header {

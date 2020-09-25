@@ -56,7 +56,7 @@
         <el-table-column :show-overflow-tooltip="true" label="创建时间" align="center" prop="createTime"></el-table-column>
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
-            <el-button size="small" type="success">查看</el-button>
+            <el-button size="small" type="success" @click="orderDetailClick(scope.row)">查看</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -96,6 +96,9 @@
       currentChange(index) {
         this.currentPage = index;
         this.init()
+      },
+      orderDetailClick(row) {
+        this.$router.push({path: '/order-detail', query: {orderId: row.id}})
       },
       searchOrder() {
         if (this.searchParam.time !== undefined && this.searchParam.time !== null) {
@@ -140,7 +143,7 @@
           case 0:
             return '待付款';
           case 1:
-            return '代发货';
+            return '待发货';
           case 2:
             return '已发货';
           case 3:

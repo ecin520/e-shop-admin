@@ -434,6 +434,7 @@
         insertProductByParam({product: this.insertProduct, skuProductList: this.productSkuList}).then(response => {
           if (response.code === 200) {
             this.$message({type: 'success', message: response.message})
+            this.$router.push({path: '/shop'});
           } else {
             this.$message({type: 'error', message: response.message})
           }

@@ -16,6 +16,7 @@
 <script>
 
 import {login} from '../../api/status'
+import {Message} from "element-ui";
 
 export default {
   data() {
@@ -59,6 +60,8 @@ export default {
             console.log(response)
             this.loading = false;
             this.$router.push({path: '/'});
+          } else {
+            this.$message({ message: response.message, type: 'warning' })
           }
         })
         .catch(error => {

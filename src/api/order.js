@@ -1,5 +1,8 @@
 import request from '../utils/request'
 
+/**
+ * 订单管理
+ * */
 export function listOrdersByParam(queryParam) {
   return request({
     url: '/api/order/admin/order/list',
@@ -19,6 +22,14 @@ export function updateOrder(queryParam) {
 export function getOrder(queryParam) {
   return request({
     url: '/api/order/admin/order/update',
+    method: 'POST',
+    data: queryParam
+  })
+}
+
+export function getOrderVO(queryParam) {
+  return request({
+    url: '/api/order/admin/order/view/query',
     method: 'POST',
     data: queryParam
   })
@@ -50,7 +61,7 @@ export function updateOrderReturnReason(orderReturnReason) {
   })
 }
 
-export function listOrderReturnReasons(pageSize, pageNum) {
+export function listOrderReturnReasons(pageNum, pageSize) {
   return request({
     url: '/api/order/admin/order/return/list',
     method: 'GET',

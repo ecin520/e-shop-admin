@@ -48,7 +48,7 @@
       width="800px"
       :visible.sync="resultDetailDialog"
     >
-      <json-viewer :value="param" :expand-depth="3" sort></json-viewer>
+      <json-viewer style="max-height: 120px;overflow-y: auto;margin: 10px;" :value="param" :expand-depth="3" sort></json-viewer>
       <el-card>
         <pre v-highlightjs="resultDetail"><code class="java"/></pre>
       </el-card>

@@ -24,26 +24,33 @@ service.interceptors.request.use(config => {
 })
 
 service.interceptors.response.use(response => {
+
   let data = response.data
-  if (data.code === 401) {
-    Message({ message: data.message, type: 'error' })
-    /* 执行刷新token */
-  } else if (data.code === 403) {
+
+  if(data.code === 4000) {
+
+    Message({ message: data.message , type: 'error' })
+    store.dispatch('logout')
+    router.push('/login')
+
+  } else if (data.code === 4003) {
+
     if (undefined === getRefreshToken() || '' === getRefreshToken() || null === getRefreshToken()) {
-      this.$store.dispatch('logout')
-      this.$router.push('/login')
+      store.dispatch('logout')
+      router.push('/login')
     }
+
     refreshToken(getRefreshToken()).then(response => {
       if (response.code === 200) {
         setToken(response.data.oauth.accessToken, true)
         router.go(0)
       } else {
-        this.$store.dispatch('logout')
-        this.$router.push('/login')
-        Message({ message: '登录失效 请重新授权', type: 'danger' })
+        store.dispatch('logout')
+        router.push('/login')
+        Message({ message: '登录失效 请重新授权', type: 'error' })
       }
     })
-    // Message({ message: 'Token失效 正在刷新Token', type: 'warning' })
+
   } else {
     return response.data
   }

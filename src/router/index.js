@@ -75,9 +75,19 @@ const router = new Router({
           component: () => import('../components/management/order/Order')
         },
         {
+          path: '/order-detail',
+          name: 'OrderDetail',
+          component: () => import('../components/management/order/OrderDetail')
+        },
+        {
           path: 'return-reason',
           name: 'ReturnReason',
           component: () => import('../components/management/order/ReturnReason')
+        },
+        {
+          path: 'return',
+          name: 'Return',
+          component: () => import('../components/management/order/Return')
         },
         {
           path: '/shop',
